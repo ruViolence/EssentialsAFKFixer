@@ -1,0 +1,4 @@
+name: EssentialsAFKFixer
+main: ru.violence.essentialsafkfixer.EssentialsAFKFixerPlugin
+version: 1
+depend: [Essentials]
