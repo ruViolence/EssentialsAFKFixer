@@ -1,13 +1,15 @@
 package ru.violence.essentialsafkfixer;
 
 import com.earth2me.essentials.Essentials;
-import com.earth2me.essentials.User;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.spigotmc.event.entity.EntityDismountEvent;
+import org.spigotmc.event.entity.EntityMountEvent;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,10 +27,26 @@ public class EventMoveListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onPlayerMove(PlayerMoveEvent event) {
-        Player player = event.getPlayer();
+        resetAFK(event.getPlayer());
+    }
+
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void onEntityMount(EntityMountEvent event) {
+        Entity entity = event.getEntity();
+        if (!(entity instanceof Player)) return;
+        resetAFK((Player) entity);
+    }
+
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void onEntityDismount(EntityDismountEvent event) {
+        Entity entity = event.getEntity();
+        if (!(entity instanceof Player)) return;
+        resetAFK((Player) entity);
+    }
+
+    private void resetAFK(Player player) {
         if (!checkIgnore(player.getUniqueId())) return;
-        User user = this.ess.getUser(player);
-        user.updateActivityOnMove(true);
+        this.ess.getUser(player).updateActivityOnMove(true);
     }
 
     private boolean checkIgnore(UUID uniqueId) {

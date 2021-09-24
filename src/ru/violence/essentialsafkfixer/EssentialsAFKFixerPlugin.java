@@ -9,6 +9,6 @@ public class EssentialsAFKFixerPlugin extends JavaPlugin implements Listener {
     public void onEnable() {
         Essentials ess = (Essentials) getServer().getPluginManager().getPlugin("Essentials");
         getServer().getPluginManager().registerEvents(new EventMoveListener(this, ess), this);
-        getServer().getPluginManager().registerEvents(new AnyMoveChecker(this, ess), this);
+        getServer().getPluginManager().registerEvents(new VehicleMoveListener(this, ess), this);
     }
 }
